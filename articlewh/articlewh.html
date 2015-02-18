@@ -55,7 +55,7 @@ Disable breakpoint and execute till user code. You should break here:<br>
 Scroll up to find glBegin call:<br>
 <img src="./15.jpg"><br>
 We are drawing with polygons here ("push 9"). With the same intention as before change "push 9" to "push 2", hit run and<br>start new game.You should get this if you don't move:<br>
-<img src="./16.jpg" width="800" hight=600"><br>
+<img src="./16.jpg" width="800" hight="600"><br>
 We see that the world is drawn in wires (lines). We found the part of code that draws the world. Remember the glBegin address for further use.
 <h4>Part 4. Patch 1. Transparent walls.</h4>
 Now we will try to make transparent walls. It's much better to have them transparent than removed completely.<br> To make transparency work in OpenGL we shall turn off the depth test so that no pixels are left aside, turn on alpha blending and<br> adjust alpha value to make it more comfortable to use. All of this should be done before glBegin call. If you have some trouble with constants for calls please refer to <a href="http://logand.com/mplisp/simul/gl/lib.l">OpenGL constants in hex</a><br>. This will take a lot of space so wi shall find address range which is empty. I found it at 1cf707e. We will inject code at 1cf707e.<br>We will patch the original code and place there a call of our function at 1cf707e. Here is the call:<br>  
@@ -63,7 +63,7 @@ Now we will try to make transparent walls. It's much better to have them transpa
 I have found a suitable address to place my call. At this address was another call so we shall copy the original piece of code from here to our function.<br>Those will be the first 3 instructions in our function:<br>
 <img src="./18.jpg"><br>
 Then we save all registers with pushad. Configure alpha blending with <a href="http://www.opengl.org/sdk/docs/man/xhtml/glBlendFunc.xml">glBlendFunc</a>(I used flags that are recommended in common tutorials).<br> The next two calls are responsible for disabling depth test and enabling alpha blending. The next call <a href="http://www.opengl.org/sdk/docs/man/xhtml/glColor.xml">glColor4f</a> adjusts alpha value.<br> You can play with the paraeters for a better look. I have set all 4 values here experimentally. And here is what we get:<br>
-<img src="./19.jpg" width="800" hight=600"><br>
+<img src="./19.jpg" width="800" hight="600"><br>
 We can still see through walls, but now they are transparent. We can (hardly) tell where the wall starts. As for the automatic patcher I'll describe it later. Patcher code is pretty much the same for this and the next patch.<br>
 To write a patcher we'll just need these offsets and patches themselves.<br>
 <h4>Part 5. Patch 2. Neat.</h4>
@@ -77,7 +77,7 @@ And the second patch looks like this:<br>
 <img src="./23.jpg"><br>
 Here we call the glEnd and we enable depth testing back so the rest of the world is drawn correctly.<br>
 And here is what we get:<br>
-<img src="./24.jpg" width="800" hight=600"><br>
+<img src="./24.jpg" width="800" hight="600"><br>
 Models are sloppy and you can get bugs with crates.<br>
 <h4>Part 6. Automated patching.</h4>
 Now we will make a patcher for convenience. First with  find  window name with <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633499%28v=vs.85%29.aspx">FindWindow</a>, then get it PID with <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633522%28v=vs.85%29.aspx">GetWindowThreadProcessId</a>.<br> Once we have it's PID we will get process handle (<a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms684320%28v=vs.85%29.aspx">OpenProcess</a>)
