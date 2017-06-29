@@ -1,3 +1,7 @@
+#+TITLE: Writing
+#+OPTIONS: toc:f
+
+
 * All my articles, notes, essays
 
 ** Articles
