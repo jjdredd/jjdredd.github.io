@@ -1,5 +1,5 @@
 #+TITLE: Writing
-#+OPTIONS: toc:f
+#+OPTIONS: toc:nil
 
 
 * All my articles, notes, essays
