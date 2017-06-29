@@ -1,3 +1,5 @@
+#+TITLE: List of books by Jordan Peterson
+
 * [[https://jordanbpeterson.com/2017/03/great-books/][A Categorized Book List]]
 ** Clinical Psychology and Personality
 
